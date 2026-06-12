@@ -25,7 +25,7 @@ class _SplachAppState extends State<SplachApp> {
   checklogin()async {
     Future.delayed(
 
-      const Duration(seconds: 5),
+      const Duration(seconds: 4),
           () {
         CacheKeys.token=CacheHelper.getData(key: 'userToken');
         isLoged = CacheKeys.token?.isNotEmpty??false;
@@ -71,9 +71,9 @@ class _SplachAppState extends State<SplachApp> {
             AnimatedSlide(
               duration: const Duration(milliseconds: 800),
               offset: animate ? Offset.zero : const Offset(0, .3),
-              child: Image.asset('assets/images/splach-2.png',height: 300,width: 300,),
+              child: Image.asset('assets/images/splach-2.png',height: 400,width: 400,),
             ),
-            Gap(50),
+            Gap(3),
           ],
         ),
       ),

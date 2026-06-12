@@ -19,6 +19,8 @@ class AuthCubit extends Cubit<AuthStates>{
    emit(AuthChangeStates());
  }
 
+
+
   Future<void>login({
     required String email,
     required String password,
@@ -36,6 +38,8 @@ class AuthCubit extends Cubit<AuthStates>{
       }
     }
   }
+
+
 
   Future<void>register({
     required String name,
@@ -61,4 +65,8 @@ class AuthCubit extends Cubit<AuthStates>{
       }
     }
   }
+
+
+
+
 }

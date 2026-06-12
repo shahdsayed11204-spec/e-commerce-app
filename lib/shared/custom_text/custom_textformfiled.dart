@@ -45,8 +45,8 @@ class CustomTextformfiled extends StatelessWidget {
         ),
         fillColor: Colors.transparent,
         filled: true,
-        prefixIcon: Icon(prefix),
-        suffixIcon: sufix!=null ?IconButton(onPressed: suffixprex, icon: Icon(sufix)):null,
+        prefixIcon: Icon(prefix,color: Colors.white,),
+        suffixIcon: sufix!=null ?IconButton(onPressed: suffixprex, icon: Icon(sufix,color: Colors.white)):null,
 
       ),
 

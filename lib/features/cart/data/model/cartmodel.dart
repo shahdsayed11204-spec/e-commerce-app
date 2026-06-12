@@ -18,23 +18,24 @@ class CartModel {
   }
 }
 class CartData {
+  String? cartId;
   List<CartProduct>? products;
   int? totalCartPrice;
 
   CartData({
+    this.cartId, // زدناه هنا
     this.products,
     this.totalCartPrice,
   });
 
   CartData.fromJson(Map<String, dynamic> json) {
+    cartId = json['_id']; // 🌟 وزدنا السطر ده عشان يقرأ الـ ID بتاع السلة ككل
     if (json['products'] != null) {
       products = <CartProduct>[];
-
       json['products'].forEach((v) {
         products!.add(CartProduct.fromJson(v));
       });
     }
-
     totalCartPrice = json['totalCartPrice'];
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-
+import 'package:untitled3/core/constants/cahce_key.dart'; // تأكدي من مسار الـ CacheKeys
 import '../../features/cart/data/model/cartmodel.dart';
 import '../constants/end_point.dart';
 import '../network/api_error.dart';
@@ -7,19 +7,28 @@ import '../network/api_exceptions.dart';
 import '../network/dio_helper.dart';
 
 class CartServices {
-  DioClient dioClient = DioClient();
+  final DioClient dioClient = DioClient();
+
+  Options _getOptions() {
+    return Options(
+      headers: {
+        'token': CacheKeys.token ?? '',
+      },
+    );
+  }
 
   /// ADD TO CART
-  /// ADD TO CART
-  Future<dynamic> addToCart(String id) async { // تغيير الـ Return لـ dynamic
+  Future<dynamic> addToCart(String productId) async {
     try {
       final response = await dioClient.dio.post(
         addcart,
         data: {
-          'productId': id, // متأكدين إنها productId
+          'productId': productId,
         },
+        options: _getOptions(), // 🔑 تمرير التوكن
       );
-      return response.data; // رجعي الداتا الخام بدون ما تمرريها للموديل هنا
+      print(response.data);
+      return response.data;
     } on DioException catch (e) {
       throw ApiExceptions.handleError(e);
     } catch (e) {
@@ -30,7 +39,10 @@ class CartServices {
   /// GET CART
   Future<CartModel> getCart() async {
     try {
-      final response = await dioClient.dio.get(getcart);
+      final response = await dioClient.dio.get(
+        getcart,
+        options: _getOptions(),
+      );
 
       return CartModel.fromJson(response.data);
     } on DioException catch (e) {
@@ -48,6 +60,7 @@ class CartServices {
         data: {
           'count': count,
         },
+        options: _getOptions(), // 🔑 تمرير التوكن
       );
 
       return response.data;
@@ -63,8 +76,10 @@ class CartServices {
     try {
       final response = await dioClient.dio.delete(
         '$delcart/$cartItemId',
+        options: _getOptions(),
       );
-      response.data;
+
+      return response.data;
     } on DioException catch (e) {
       throw ApiExceptions.handleError(e);
     } catch (e) {

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:untitled3/shared/custom_text/coustom_taxt.dart';
 
-SnackBar customSnack({required String msg,final Color?color}) {
+SnackBar customSnack({required String msg,final Color?color,IconData? icon}) {
   return SnackBar(
     padding: const EdgeInsets.all(10),
     margin: const EdgeInsets.only(
-      bottom: 40,
+      bottom: 5,
       left: 20,
       right: 20,
     ),
@@ -19,10 +19,8 @@ SnackBar customSnack({required String msg,final Color?color}) {
     backgroundColor: color,
     content: Row(
       children: [
-        const Icon(
-          CupertinoIcons.info_circle,
-          color: Colors.white,
-          size: 18,
+         Icon(
+          icon ?? CupertinoIcons.info_circle,color: Colors.white,size: 12,
         ),
         const Gap(10),
         Expanded(

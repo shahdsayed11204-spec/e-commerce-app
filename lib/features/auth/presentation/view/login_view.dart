@@ -63,7 +63,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       children: [
                         CustomTextformfiled(
-                          isPassword: context.watch<AuthCubit>().isPassword,
+                          isPassword: false,
                           hint: 'Email Address',
                           controller: email,
                           type: TextInputType.emailAddress,
@@ -77,6 +77,7 @@ class LoginView extends StatelessWidget {
                         ),
                         Gap(15),
                         CustomTextformfiled(
+                          isPassword: context.watch<AuthCubit>().isPassword,
                           hint: 'Password',
                           controller: password,
                           type: TextInputType.visiblePassword,
@@ -88,7 +89,7 @@ class LoginView extends StatelessWidget {
                             }
                             return null;
                           },
-                          isPassword: true,
+
                           prefix: Icons.lock_outline_rounded,
                           sufix: context.watch<AuthCubit>().sufix,
                           suffixprex: context

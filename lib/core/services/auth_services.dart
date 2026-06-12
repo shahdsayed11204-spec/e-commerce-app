@@ -26,6 +26,8 @@ DioClient dioClient=DioClient();
       LoginUserResponseModel loginUserResponseModel = LoginUserResponseModel.fromJson(
           jsondata);
       return loginUserResponseModel;
+
+
     }on DioException catch (e) {
       throw ApiExceptions.handleError(e);
     } catch (e) {

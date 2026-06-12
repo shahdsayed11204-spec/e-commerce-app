@@ -44,7 +44,10 @@ class UpdateCartErrorStates extends CartStates {
 }
 
 /// Remove From Cart
-class RemoveCartItemLoadingState extends CartStates {}
+class RemoveCartItemLoadingState extends CartStates {
+  final String productId;
+  RemoveCartItemLoadingState(this.productId);
+}
 class RemoveCartSuccessStates extends CartStates {
   final CartModel cart;
 

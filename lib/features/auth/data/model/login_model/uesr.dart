@@ -9,7 +9,9 @@ class User {
     name: json['name'] as String?,
     email: json['email'] as String?,
     role: json['role'] as String?,
+
+
   );
 
-  Map<String, dynamic> toJson() => {'name': name, 'email': email, 'role': role};
+  Map<String, dynamic> toJson() => {'name': name, 'email': email, 'role': role,};
 }

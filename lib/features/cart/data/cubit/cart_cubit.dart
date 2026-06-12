@@ -61,12 +61,14 @@ class CartCubit extends Cubit<CartStates> {
 
   Future<void> removeItem(String cartItemId) async {
     try {
-      emit(RemoveCartItemLoadingState());
-      final response= await cartServices.deleteCart(cartItemId);
+      emit(RemoveCartItemLoadingState(cartItemId));
+      final response = await cartServices.deleteCart(cartItemId);
+
       final result = await cartServices.getCart();
       cartModel = result;
+
       emit(RemoveCartSuccessStates(result));
-    } catch (e) {
+    }   catch (e) {
       if (e is ApiError) {
         emit(RemoveCartErrorStates(e.message));
       } else {

@@ -11,10 +11,7 @@ import 'package:untitled3/shared/custom_text/custom_snackbar.dart';
 import 'package:untitled3/shared/navigetors/navigator_replace.dart';
 import 'package:untitled3/shared/navigetors/navigetor_to.dart';
 
-class ProductDetailsView extends StatelessWidget {
-  static const _primary = Color(0xFF7FA191);
-  static const _dark = Color(0xFF2C3E35);
-
+class ProductDetailsView extends StatefulWidget {
   final ProductData product;
 
   const ProductDetailsView({
@@ -23,8 +20,22 @@ class ProductDetailsView extends StatelessWidget {
   });
 
   @override
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends State<ProductDetailsView> {
+  static const _primary = Color(0xFF7FA191);
+  static const _dark = Color(0xFF2C3E35);
+
+  int _selectedImageIndex = -1;
+
+  @override
   Widget build(BuildContext context) {
-    final images = product.images ?? [];
+    final images = widget.product.images ?? [];
+
+    final String mainImageUrl = _selectedImageIndex == -1
+        ? (widget.product.imageCover ?? '')
+        : images[_selectedImageIndex];
 
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
@@ -57,7 +68,7 @@ class ProductDetailsView extends StatelessWidget {
             children: [
               const Gap(10),
 
-              // MAIN IMAGE
+              // MAIN IMAGE (الصورة الكبيرة تتغير تلقائياً)
               Container(
                 height: 320,
                 width: double.infinity,
@@ -68,27 +79,42 @@ class ProductDetailsView extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: Image.network(
-                    product.imageCover ?? '',
+                    mainImageUrl,
                     fit: BoxFit.fitWidth,
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 50),
                   ),
                 ),
               ),
 
-               Gap(16),
+              const Gap(16),
 
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(images.length, (index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 12),
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                          image: NetworkImage(images[index]),
-                          fit: BoxFit.cover,
+                    final isSelected = _selectedImageIndex == index;
+
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedImageIndex = index;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        margin: const EdgeInsets.only(right: 12),
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected ? AppColors.primaryColor : Colors.transparent,
+                            width: 2.5,
+                          ),
+                          image: DecorationImage(
+                            image: NetworkImage(images[index]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     );
@@ -96,68 +122,66 @@ class ProductDetailsView extends StatelessWidget {
                 ),
               ),
 
-               Gap(24),
+              const Gap(24),
 
               Text(
-                product.title ?? '',
-                style: TextStyle(
+                widget.product.title ?? '',
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: _dark,
                 ),
               ),
 
-              Gap( 4),
+              const Gap(4),
 
               Text(
-                product.brand?.name ?? '',
-                style:  TextStyle(
+                widget.product.brand?.name ?? '',
+                style: const TextStyle(
                   fontSize: 14,
                   color: Colors.grey,
                 ),
               ),
 
-               Gap(12),
+              const Gap(12),
 
               Row(
                 children: [
-                   Icon(Icons.star,
-                      color: Color(0xFFE6A83C), size: 18),
-                   SizedBox(width: 4),
+                  const Icon(Icons.star, color: Color(0xFFE6A83C), size: 18),
+                  const SizedBox(width: 4),
                   Text(
-                    '${product.ratingsAverage ?? 0}',
-                    style:  TextStyle(fontWeight: FontWeight.bold),
+                    '${widget.product.ratingsAverage ?? 0}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                   SizedBox(width: 4),
+                  const SizedBox(width: 4),
                   Text(
-                    '(${product.ratingsQuantity ?? 0} Reviews)',
-                    style:  TextStyle(color: Colors.grey),
+                    '(${widget.product.ratingsQuantity ?? 0} Reviews)',
+                    style: const TextStyle(color: Colors.grey),
                   ),
                 ],
               ),
 
-               Gap(20),
+              const Gap(20),
 
               Row(
                 children: [
                   Text(
-                    'USD ${product.price ?? 0}',
-                    style: TextStyle(
+                    'USD ${widget.product.price ?? 0}',
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: _dark,
                     ),
                   ),
-                  Gap( 16),
+                  const Gap(16),
 
                   Container(
-                    padding:  EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: const Color(0xFFEAF2EE),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child:  Text(
+                    child: const Text(
                       'Free Shipping',
                       style: TextStyle(
                         color: Color(0xFF6B8E7D),
@@ -167,16 +191,14 @@ class ProductDetailsView extends StatelessWidget {
                     ),
                   ),
 
-                  Gap( 8),
-
+                  const Gap(8),
                   Container(
-                    padding:  EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color:  Color(0xFFEAF2EE),
+                      color: const Color(0xFFEAF2EE),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child:  Text(
+                    child: const Text(
                       'In Stock',
                       style: TextStyle(
                         color: Color(0xFF6B8E7D),
@@ -187,38 +209,32 @@ class ProductDetailsView extends StatelessWidget {
                   ),
                 ],
               ),
-
-               Gap(30),
-
+              const Gap(30),
               // BUTTONS
               Row(
                 children: [
                   Expanded(
                     flex: 11,
-                    child: BlocListener<CartCubit,CartStates>(
+                    child: BlocListener<CartCubit, CartStates>(
                       listener: (BuildContext context, CartStates state) {
-                        if(state is AddToCartSuccessStates){
+                        if (state is AddToCartSuccessStates) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            customSnack(msg: 'Added to Cart',color: Colors.green),
+                            customSnack(msg: 'Added to Cart', color: Colors.green,icon: Icons.check_circle),
                           );
-                        }else if(state is AddToCartErrorStates){
+                        } else if (state is AddToCartErrorStates) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            customSnack(msg: 'Error',color: Colors.red),
+                            customSnack(msg: 'Error', color: Colors.red),
                           );
                         }
                       },
                       child: ElevatedButton.icon(
                         onPressed: () {
-                            final cubit = context.read<CartCubit>();
-
-                            if (product.id == null) return;
-
-                            cubit.addToCart(product.id!);
-
+                          final cubit = context.read<CartCubit>();
+                          if (widget.product.id == null) return;
+                          cubit.addToCart(widget.product.id!);
                         },
-                        icon: const Icon(Icons.shopping_bag_outlined,
-                            color: Colors.white),
-                        label: CustomText(text: 'ADD TO CART',color: Colors.white),
+                        icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white),
+                        label: CustomText(text: 'ADD TO CART', color: Colors.white),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -229,28 +245,35 @@ class ProductDetailsView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Gap( 12),
+                  const Gap(12),
                   Expanded(
                     flex: 9,
                     child: ElevatedButton(
                       onPressed: () {
-                        navigatorReplace(context, CartView());
+                        final cartCubit= context.read<CartCubit>();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlocProvider.value(
+                              value: cartCubit,
+                              child:  CartView(),
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        padding:  EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
-
                       ),
-                      child: CustomText(text: 'Show Order you',color: AppColors.primaryColor),
+                      child: CustomText(text: 'Show Order you', color: AppColors.primaryColor),
                     ),
                   ),
                 ],
               ),
-
-               Gap(40),
+              const Gap(40),
             ],
           ),
         ),

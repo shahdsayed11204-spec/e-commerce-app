@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
         ),
-        home:LoginView(),
+        home:SplachApp(),
       ),
     );
   }
