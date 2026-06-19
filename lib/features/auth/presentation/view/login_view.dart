@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,8 +99,7 @@ class LoginView extends StatelessWidget {
                         BlocConsumer<AuthCubit, AuthStates>(
                           listener: (context, state) {
                             if (state is LoginSuccessStates) {
-                              CacheKeys.token =
-                                  state.userResponseModel.token ?? '';
+                              CacheKeys.token = state.userResponseModel.token ?? '';
                               CacheHelper.saveData(
                                 key: 'userToken',
                                 value: CacheKeys.token,
@@ -118,26 +116,20 @@ class LoginView extends StatelessWidget {
                           },
 
                           builder: (context, state) {
-                            return ConditionalBuilder(
-                              condition: state is! LoginLoadingStates,
+                            final isLoading = state is LoginLoadingStates;
 
-                              builder: (context) => CustomBottom(
-                                text: 'Login',
-                                onTap: () {
-                                  if (formkey.currentState!.validate()) {
-                                    context.read<AuthCubit>().login(
-                                      email: email.text,
-                                      password: password.text,
-                                    );
-                                  }
-                                },
-                              ),
-
-                              fallback: (context) => const Center(
-                                child: CupertinoActivityIndicator(
-                                  color: Colors.white,
-                                ),
-                              ),
+                            return CustomBottom(
+                              text: isLoading ? 'Loading...' : 'Login',
+                              onTap: isLoading
+                                  ? null
+                                  : () {
+                                if (formkey.currentState!.validate()) {
+                                  context.read<AuthCubit>().login(
+                                    email: email.text,
+                                    password: password.text,
+                                  );
+                                }
+                              },
                             );
                           },
                         ),

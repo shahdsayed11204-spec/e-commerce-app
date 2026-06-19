@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
     this.radius,
     this.textColor,
     this.widget,
-    this.gap,
+    this.gap, this.icon,
   });
 
   final String text;
@@ -28,6 +28,7 @@ class CustomButton extends StatelessWidget {
   final Color? textColor;
   final Widget? widget;
   final double? gap;
+  final IconData?icon;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,18 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color ?? AppColors.primaryColor,
           borderRadius: BorderRadius.circular(radius ?? 10),
-          border: BoxBorder.all(color: AppColors.primaryColor)
+            border: Border.all(
+        color: Colors.white60.withOpacity(0.5),
+      ),
         ),
         child: Row(
           mainAxisAlignment:  MainAxisAlignment.center,
           children: [
             CustomText(text: text, color: textColor ?? Colors.white, size: 15, font: FontWeight.w500),
+            Icon(icon,color: Colors.white,size: 18,),
             Gap(gap ?? 0.0),
             widget ?? SizedBox.shrink(),
+
           ],
         ),
       ),

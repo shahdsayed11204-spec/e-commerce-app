@@ -24,7 +24,7 @@ class RootCubit extends Cubit<RootStates> {
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.reorder_rounded),
-      label: 'Order',
+      label: 'History',
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.person_outline_rounded),
@@ -32,7 +32,7 @@ class RootCubit extends Cubit<RootStates> {
     ),
   ];
 
-  List<Widget> screen = [HomeView(), CartView(), OrderView(),ProfileView()];
+  List<Widget> screen = [HomeView(), CartView(), HistoryView(),ProfileView()];
 
   void ChangeBottomNav(int index) {
     currentIndex = index;

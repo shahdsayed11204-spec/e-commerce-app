@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -8,8 +10,6 @@ import 'package:untitled3/features/cart/presentation/views/cart_view.dart';
 import 'package:untitled3/features/home/data/models/products/product_model.dart';
 import 'package:untitled3/shared/custom_text/coustom_taxt.dart';
 import 'package:untitled3/shared/custom_text/custom_snackbar.dart';
-import 'package:untitled3/shared/navigetors/navigator_replace.dart';
-import 'package:untitled3/shared/navigetors/navigetor_to.dart';
 
 class ProductDetailsView extends StatefulWidget {
   final ProductData product;
@@ -68,7 +68,6 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             children: [
               const Gap(10),
 
-              // MAIN IMAGE (الصورة الكبيرة تتغير تلقائياً)
               Container(
                 height: 320,
                 width: double.infinity,
@@ -78,10 +77,15 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
-                  child: Image.network(
-                    mainImageUrl,
-                    fit: BoxFit.fitWidth,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 50),
+                  child: CachedNetworkImage(
+                    imageUrl: mainImageUrl,
+                    width: 125,
+                    fit: BoxFit.cover,
+                    progressIndicatorBuilder:
+                        (context, url, progress) =>
+                        CupertinoActivityIndicator(),
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
                   ),
                 ),
               ),

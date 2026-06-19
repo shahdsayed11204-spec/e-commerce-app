@@ -18,7 +18,11 @@ class CustomTextformfiled extends StatelessWidget {
   const CustomTextformfiled({ required this.hint,
     required this.controller,
     this.color, this.textcolor,
-    this.type, required this.isPassword, this.validator, this.prefix, this.sufix, this.suffixprex
+    this.type, required this.isPassword,
+    this.validator,
+    this.prefix,
+    this.sufix,
+    this.suffixprex
   });
   @override
   Widget build(BuildContext context) {

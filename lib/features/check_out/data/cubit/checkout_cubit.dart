@@ -29,10 +29,10 @@ class CheckoutCubit extends Cubit<CheckoutState>{
         isDelivered: isDelivered,
       ));
       final result = await checkOutServices.createCashOrder(
-          cartId: cartId, shippingAddress: shippingAddress, token: token);
+      cartId,  shippingAddress, token);
       checkOutModel = result;
       emit(CheckoutSuccessStates(
-        // checkoutModel: response.data,
+        checkoutModel: result,
         selectedMethod: selectedMethod,
         isPaid: isPaid,
         isDelivered: isDelivered,

@@ -6,6 +6,7 @@ import 'package:untitled3/core/constants/cahce_key.dart';
 import 'package:untitled3/features/check_out/presentation/widgets/price_row.dart';
 import 'package:untitled3/shared/custom_text/coustom_taxt.dart';
 import '../../../../shared/custom_text/custom_bottom_cart.dart';
+import '../../../../shared/custom_text/custom_snackbar.dart';
 import '../../data/cubit/checkout_cubit.dart';
 import '../../data/cubit/checkout_state.dart';
 import '../widgets/box_decoration.dart';
@@ -25,7 +26,7 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
-  // تحويلها إلى متغير داخل الـ State ليقبل التعديل
+
   bool isOrderCreated = false;
 
   @override
@@ -58,9 +59,10 @@ class _CheckoutViewState extends State<CheckoutView> {
         ),
         body: BlocBuilder<CheckoutCubit, CheckoutState>(
           builder: (context, state) {
+            final cubit = context.read<CheckoutCubit>();
             return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              physics:  BouncingScrollPhysics(),
+              padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -89,18 +91,27 @@ class _CheckoutViewState extends State<CheckoutView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: "Cairo, Egypt",
+                                text: cubit.checkOutModel?.data?.shippingAddress?.city ??
+                                    "Cairo",
                                 font: FontWeight.bold,
                                 size: 15,
                               ),
                               const Gap(4),
-                              Text(
-                                "01010800921 • Main Street, Building 12",
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 13,
-                                ),
-                              ),
+                              CustomText(text:
+                              cubit.checkOutModel?.data?.shippingAddress?.details ??
+                                  "Main Street",
+                                color: Colors.grey.shade600,
+                                size: 13,
+
+                              ) ,
+                              const Gap(4),
+                              CustomText(text:
+                              cubit.checkOutModel?.data?.shippingAddress?.phone ??
+                                  "01000000000",
+                                color: Colors.grey.shade600,
+                                size: 13,
+
+                              )
                             ],
                           ),
                         ),
@@ -157,7 +168,6 @@ class _CheckoutViewState extends State<CheckoutView> {
                     ),
                   ),
 
-                  // سيظهر هذا الجزء الآن ديناميكياً عند نجاح الطلب
                   if (isOrderCreated) ...[
                     const Gap(24),
                     CustomText(text: "Order Tracking"),
@@ -217,6 +227,7 @@ class _CheckoutViewState extends State<CheckoutView> {
           builder: (context, state) {
             final bool isLoading = state is CheckoutLoadingStates;
             if (isOrderCreated) return const SizedBox.shrink();
+            final product=context.read<CheckoutCubit>().checkOutModel;
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               decoration: BoxDecoration(
@@ -264,7 +275,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                               String? token = CacheKeys.token;
                               if (token == null || token.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Please login again! '), backgroundColor: Colors.red),
+                                    customSnack(msg:
+                                    'Please login again! '
+                                    )
                                 );
                                 return;
                               }

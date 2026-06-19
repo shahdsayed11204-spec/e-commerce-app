@@ -24,6 +24,7 @@ class CustomBottomCart extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.primaryColor,
             borderRadius: BorderRadiusGeometry.circular(15),
+
           ),
           child: Center(child: CustomText(text: text,size: 18,font: FontWeight.bold,color: Colors.white))
       ),

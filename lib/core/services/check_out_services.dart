@@ -8,7 +8,7 @@ class CheckOutServices {
 
   DioClient dioClient = DioClient();
 /// GET CART DETAILS
-  Future<Response> getCartDetails({required String token}) async {
+  Future<Response> getCartDetails( String token) async {
     try {
       final response = await dioClient.dio.get(
         '/cart',
@@ -18,7 +18,9 @@ class CheckOutServices {
           },
         ),
       );
+      print(response.data);
       return response;
+
     } on DioException catch (e) {
       ApiExceptions.handleError(e);
       rethrow;
@@ -28,11 +30,11 @@ class CheckOutServices {
   }
 
   /// CREATE CASH ORDER
-  Future<CheckOutModel?> createCashOrder({
-    required String cartId,
-    required Map<String, dynamic> shippingAddress,
-    required String token,
-  })
+  Future<CheckOutModel?> createCashOrder(
+     String cartId,
+     Map<String, dynamic> shippingAddress,
+     String token,
+  )
   async {
     try {
       final response= await dioClient.dio.post('/orders/$cartId',data: {

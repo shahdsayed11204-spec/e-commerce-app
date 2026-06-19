@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:untitled3/features/auth/data/cubit/auth_cubit.dart';
 import 'package:untitled3/features/auth/data/cubit/auth_states.dart';
+import 'package:untitled3/features/auth/presentation/view/login_view.dart';
+import 'package:untitled3/shared/custom_text/custom_bottom.dart';
 import 'package:untitled3/shared/custom_text/custom_snackbar.dart';
-import 'package:untitled3/shared/navigetors/navigetor_to.dart';
 import '../../../../app/root_app/root_app.dart';
 import '../../../../core/constants/app_color.dart';
 import '../../../../shared/custom_text/coustom_taxt.dart';
@@ -19,6 +21,7 @@ class RegisterView extends StatelessWidget {
   final phone = TextEditingController();
   final repassword = TextEditingController();
   var formkey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +67,52 @@ class RegisterView extends StatelessWidget {
                           controller: name,
                           type: TextInputType.text,
                           isPassword: false,
+                          prefix: Icons.person_outline,
+                          validator: (value) {
+                            if(value==null||value.isEmpty){
+                              return 'please fill Name';
+                            }
+                            return null;
+                          },
                         ),
                         Gap(10),
                         CustomTextformfiled(
                           isPassword: false,
                           hint: 'Email Address',
                           controller: email,
+                          prefix: Icons.email_outlined,
                           type: TextInputType.emailAddress,
+                          validator: (value) {
+                            if(value==null||value.isEmpty){
+                              return 'please fill Email';
+                            }
+                            return null;
+                          },
+                        ),
+                        Gap(10),
+                        CustomTextformfiled(
+                          hint: 'Phone',
+                          controller: phone,
+                          type: TextInputType.phone,
+                          prefix: Icons.phone_android_outlined,
+                          isPassword: false,
+                          validator: (value) {
+                            if(value==null||value.isEmpty){
+                              return 'please fill Phone';
+                            }
+                            return null;},
                         ),
                         Gap(10),
                         CustomTextformfiled(
                           hint: 'Password',
                           controller: password,
                           type: TextInputType.visiblePassword,
-                          isPassword: true,
+                          prefix: Icons.password_outlined,
+                          suffixprex:context
+                              .watch<AuthCubit>()
+                              .ChagnePassword,
+                          sufix:  context.read<AuthCubit>().sufix,
+                          isPassword: context.watch<AuthCubit>().isPassword,
                           validator: (value) {
                             if(value==null||value.isEmpty){
                               return 'please fill password';
@@ -103,14 +138,13 @@ class RegisterView extends StatelessWidget {
                             }
                             return null;
                           },
+                          prefix: Icons.password_outlined,
+                          suffixprex:context
+                              .watch<AuthCubit>()
+                              .ChagnePassword,
+                          sufix:  context.read<AuthCubit>().sufix,
                         ),
-                        Gap(10),        CustomTextformfiled(
-                          hint: 'Phone',
-                          controller: phone,
-                          type: TextInputType.phone,
-                          isPassword: false,
-                        ),
-                        Gap(25),
+                        Gap(15),
                         BlocListener<AuthCubit, AuthStates>(
                           listener: (context, state) {
                             if (state is RegisterSuccessStates) {
@@ -120,10 +154,10 @@ class RegisterView extends StatelessWidget {
                               );
                             }
                             if (state is RegisterErrorStates) {
-                             customSnack(msg: 'Error .. Please try again');
+                             ScaffoldMessenger.of(context).showSnackBar(customSnack(msg:state.message));
                             }
                           },
-                          child: CustomBottom(
+                          child: CustomButton(
                             text: 'Register',
                             onTap: () {
                               if (formkey.currentState!.validate()) {
@@ -136,9 +170,44 @@ class RegisterView extends StatelessWidget {
                                 );
                               }
                             },
-                          ),
+                            color: Colors.white,
+                            textColor: AppColors.primaryColor,
+                            radius: 10,
+                            widget: isLoading
+                                ?CupertinoActivityIndicator(color: Colors.white,)
+                                :SizedBox.shrink(),
+                          )
                         ),
                         Gap(15),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomButton(
+                                textColor: Colors.white,
+                                  text: 'Signin',
+                                onTap: (){
+                                 navigatorReplace(context, LoginView());
+                                },
+                                color: Colors.transparent,
+                                radius: 10,
+                              ),
+                            ),
+                            Gap(9),
+                            Expanded(
+                              child: CustomButton(
+                                textColor: Colors.white,
+                                  text: 'Guest',
+                              icon: Icons.person_outline,
+                                onTap: (){
+                                 navigatorReplace(context, Root());
+                                },
+                                color: Colors.transparent,
+                                radius: 10,
+
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

@@ -1,79 +1,102 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import '../../../shared/custom_text/coustom_taxt.dart';
+import 'package:untitled3/features/order/data/cubit/order_states.dart';
+import '../data/cubit/order_cubit.dart';
 
-class OrderView extends StatelessWidget {
-  const OrderView({super.key});
+class HistoryView extends StatelessWidget {
+  const HistoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(toolbarHeight: 10, scrolledUnderElevation: 0),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Gap(20),
-              Column(
-                children: List.generate(4, (index) {
-                  return Card(
-                    color: Colors.white,
-                    elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0,
-                        vertical: 10,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset('assets/images/splach-2.png', width: 100),
-                              Column(
+      appBar: AppBar(toolbarHeight: 10),
+      body: BlocBuilder<OrderCubit, OrderStates>(
+        builder: (context, state) {
+
+          if (state is OrderLoadingStates) {
+            return const Center(child: CupertinoActivityIndicator());
+          }
+
+          if (state is OrderErrorStates) {
+            return Center(child: Text(state.error));
+          }
+
+          if (state is OrderSuccessStates) {
+            final orders = state.cart;
+
+            return ListView.builder(
+              padding: const EdgeInsets.all(15),
+              itemCount: orders.length,
+              itemBuilder: (context, index) {
+
+                final order = orders[index];
+                final firstItem = (order.cartItems != null && order.cartItems!.isNotEmpty)
+                    ? order.cartItems!.first
+                    : null;
+
+                return Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            /// IMAGE
+                            CachedNetworkImage(
+                              imageUrl: (firstItem?.product?.imageCover != null &&
+                                  firstItem!.product!.imageCover!.isNotEmpty)
+                                  ? firstItem.product!.imageCover!
+                                  : 'https://via.placeholder.com/150',
+
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+
+                              errorWidget: (_, __, ___) => const Icon(Icons.error),
+                            ),
+
+                            const Gap( 10),
+
+                            /// INFO
+                            Expanded(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomText(
-                                    text: 'Hamburger Hamburger',
-                                    font: FontWeight.bold,
+                                  Text(
+                                    firstItem?.product?.title ?? 'No title',
                                   ),
-                                  CustomText(text: 'Qty:X3'),
-                                  CustomText(text: 'Price:203'),
+
+                                  const Gap( 5),
+
+                                  Text(
+                                    "Qty: ${firstItem?.count ?? 0}",
+                                  ),
+
+                                  Text(
+                                    "Price: ${firstItem?.price ?? 0}",
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
-                          Gap(15),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsetsGeometry.symmetric(
-                                horizontal: 80.0,
-                                vertical: 7,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade400,
-                                borderRadius: BorderRadiusGeometry.circular(30),
-                              ),
-                              child: CustomText(
-                                text: 'Order Again ',
-                                size: 16,
-                                font: FontWeight.bold,
-                                color: Colors.white,
-                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+
+                        const Gap( 15),
+
+                      ],
                     ),
-                  );
-                }),
-              ),
-            ],
-          ),
-        ),
+                  ),
+                );
+              },
+            );
+          }
+
+          return const SizedBox();
+        },
       ),
     );
   }

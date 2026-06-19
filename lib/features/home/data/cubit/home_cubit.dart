@@ -11,12 +11,9 @@ class HomeCubit extends Cubit<HomeStates> {
 
   HomeServices homeServices = HomeServices();
   /// change
+
   int selectedIndex = 0;
-
   String selectedCategoryId = '';
-
-
-
   void changeCategory(index){
     selectedIndex=index;
     selectedCategoryId=categorisModel[index].sId??'No Categorise Yet';

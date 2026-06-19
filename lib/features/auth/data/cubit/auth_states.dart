@@ -31,3 +31,18 @@ class RegisterErrorStates extends AuthStates {
 
   RegisterErrorStates(this.message);
 }
+
+
+class ProfileLoadingStates extends AuthStates {}
+
+class ProfileSuccessStates extends AuthStates {
+
+}
+
+class ProfileErrorStates extends AuthStates {
+  final String message;
+
+  ProfileErrorStates(this.message);
+}
+
+class ProfileImagePickedState extends AuthStates {}
