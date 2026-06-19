@@ -13,6 +13,7 @@ class AuthCubit extends Cubit<AuthStates>{
   AuthCubit():super(AuthInitialStates());
 
  AuthServices authServices=AuthServices();
+
   LoginUserResponseModel?loginUserResponseModel;
   RegisterUserResponseModel? registerUserResponseModel;
   ProfileModel? profileModel;

@@ -21,5 +21,8 @@ String delcart='cart';
 
 String ordersuser='orders/';
 
+String fav='wishlist';
+
+
 
 

@@ -17,8 +17,8 @@ import '../../../../shared/custom_text/custom_textformfiled.dart';
 import '../widget/custom_bottom.dart';
 
 class LoginView extends StatelessWidget {
-  final email = TextEditingController(text: 'ahd@gmail.com');
-  final password = TextEditingController(text: '147258369');
+  final email = TextEditingController(text: 'shahdsayed@gmail.com');
+  final password = TextEditingController(text: '12345678');
   var formkey = GlobalKey<FormState>();
 
   @override

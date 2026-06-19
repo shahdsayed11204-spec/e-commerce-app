@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:untitled3/features/auth/data/cubit/auth_cubit.dart';
 import 'package:untitled3/features/auth/presentation/view/login_view.dart';
+import 'package:untitled3/features/favorite/presentation/view/favorite_view.dart';
 import 'package:untitled3/features/order/data/cubit/order_cubit.dart';
-import 'package:untitled3/features/order/data/model/cartI_tems_model.dart';
 import 'package:untitled3/features/order/views/order_view.dart';
 import 'package:untitled3/shared/navigetors/navigator_replace.dart';
 import 'package:untitled3/shared/navigetors/navigetor_to.dart';
@@ -78,15 +78,44 @@ class ProfileView extends StatelessWidget {
 
                   ProfileTile(
                     icon: Icons.favorite_outline,
-                    title: "Wishlist",
-                    onTap: () {},
+                    title: "Favorite",
+                    onTap: () {
+                      navigatorto(context, FavoritesView());
+                    },
                   ),
 
                   ProfileTile(
                     icon: Icons.logout,
                     title: "Logout",
                     onTap: () {
-                      navigatorReplace(context, LoginView());
+                      showDialog(
+                        context: context,
+                        builder: (dialogContext) {
+                          return AlertDialog(
+                            title: const Text("Confirm Logout"),
+                            content: const Text("Are you sure you want to logout?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(dialogContext);
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(dialogContext);
+
+                                  navigatorReplace(context, LoginView());
+                                },
+                                child: const Text(
+                                  "Logout",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ],

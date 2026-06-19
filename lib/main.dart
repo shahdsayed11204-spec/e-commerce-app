@@ -9,6 +9,7 @@ import 'core/network/dio_helper.dart';
 import 'core/utils/cache_helper.dart';
 import 'features/addresses/data/cubit/addresse_cubit.dart';
 import 'features/cart/data/cubit/cart_cubit.dart';
+import 'features/favorite/data/cubit/cubit_favoite.dart';
 import 'features/order/data/cubit/order_cubit.dart';
 
 
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) =>CartCubit()..getCart()),
         BlocProvider(create: (context) =>AddressesCubit()..GetAddresses()),
         BlocProvider(create: (context) =>OrderCubit()..getOrder()),
+        BlocProvider(create: (context) =>FavoritesCubit()..getFavorite()),
+
 
       ],
       child: MaterialApp(

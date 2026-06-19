@@ -6,9 +6,7 @@ import 'package:untitled3/core/constants/end_point.dart';
 import 'package:untitled3/features/cart/data/cubit/cart_states.dart';
 import 'package:untitled3/features/check_out/presentation/views/check_out_view.dart';
 import 'package:untitled3/shared/navigetors/navigetor_to.dart';
-import '../../../../core/constants/app_color.dart';
-import '../../../../shared/custom_text/coustom_taxt.dart';
-import '../../../../shared/custom_text/custom_bottom.dart';
+
 import '../../../../shared/custom_text/custom_bottom_cart.dart';
 import '../../data/cubit/cart_cubit.dart';
 

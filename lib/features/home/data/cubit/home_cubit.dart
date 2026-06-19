@@ -80,5 +80,12 @@ class HomeCubit extends Cubit<HomeStates> {
     }
   }
 
+  ProductData? getProductById(String id) {
+    try {
+      return productmodel.firstWhere((e) => e.id == id);
+    } catch (_) {
+      return null;
+    }
+  }
 }
 

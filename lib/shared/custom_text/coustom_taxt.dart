@@ -9,7 +9,7 @@ Widget CustomText({
   TextDecoration? decoration,
 })=> Text(
   text,
-  maxLines: 1,
+  maxLines: 2,
   overflow: TextOverflow.ellipsis,
   textScaler: TextScaler.linear(1.0),
   style: TextStyle(
