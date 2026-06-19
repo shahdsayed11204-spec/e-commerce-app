@@ -12,7 +12,7 @@ import '../utils/cache_helper.dart';
 
 class AuthServices {
   DioClient dioClient = DioClient();
-  AuthServices();
+  bool isGuest = false;
 
   /// login
   Future<LoginUserResponseModel?> Login({
@@ -26,7 +26,7 @@ class AuthServices {
       );
       Map<String, dynamic> jsondata = response.data;
       LoginUserResponseModel loginUserResponseModel =
-          LoginUserResponseModel.fromJson(jsondata);
+      LoginUserResponseModel.fromJson(jsondata);
       return loginUserResponseModel;
     } on DioException catch (e) {
       throw ApiExceptions.handleError(e);
@@ -56,7 +56,7 @@ class AuthServices {
       );
       Map<String, dynamic> jsonData = response.data;
       RegisterUserResponseModel registerUserResponseModel =
-          RegisterUserResponseModel.fromJson(jsonData);
+      RegisterUserResponseModel.fromJson(jsonData);
       return registerUserResponseModel;
     } on DioException catch (e) {
       throw ApiExceptions.handleError(e);
@@ -71,7 +71,7 @@ class AuthServices {
       final response = await dioClient.dio.get(profile);
       Map<String, dynamic> jsonData = response.data;
       print(jsonData);
-        return ProfileModel.fromJson(
+      return ProfileModel.fromJson(
           jsonData
       );
     } on DioException catch (e) {
@@ -80,4 +80,6 @@ class AuthServices {
       throw ApiError(message: e.toString());
     }
   }
+
+
 }

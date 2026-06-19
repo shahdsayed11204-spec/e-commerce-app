@@ -1,74 +1,108 @@
-#  Hi there, I'm Shahd Sayed
+# 🛒 E-Commerce App
 
-Flutter Developer | Mobile App Developer  
-Passionate about building modern, scalable, and high-performance mobile applications.  
-Focused on Clean Architecture, state management, and real-world product development.
+A modern, scalable **E-Commerce Flutter application** built using **Clean Architecture**, **BLoC (Cubit)** state management, and robust **REST API integration**.
 
----
-
-##  About Me
-
-I am a Flutter Developer who enjoys building clean, maintainable, and user-friendly mobile applications.
-
-I focus on turning ideas into real products using best practices in software engineering, clean architecture principles, and modern UI development.
-
-###  My Core Strengths:
-- Flutter Mobile App Development
-- State Management (Cubit / BLoC)
-- REST API Integration
-- Clean Architecture Design
-- Writing scalable and reusable code
-
-I am currently looking for a **Junior Flutter Developer role** where I can contribute to real projects, improve my skills, and grow as a software engineer.
+The app delivers a smooth shopping experience with secure authentication, dynamic product browsing, cart management, and order tracking.
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-- Flutter
+### 👤 Authentication System
+- User Sign Up / Login with secure credentials
+- Auto-Login support for seamless sessions
+- Guest Mode (Continue as guest)
+- Secure Token-Based Authentication using local storage
+
+---
+
+### 🛍️ Products & Catalog
+- Dynamic product browsing with smooth UI
+- Product details (price, images, specifications)
+- Category filtering
+- Cached images for better performance
+
+---
+
+### ❤️ Favorites
+- Add / remove products from wishlist
+- Persistent storage across sessions
+
+---
+
+### 🛒 Cart System
+- Real-time price calculation (subtotal, taxes, total)
+- Quantity update inside cart
+- Instant UI updates
+
+---
+
+### 📦 Orders & Tracking
+- One-click order placement
+- Order history screen
+- Order status tracking
+
+---
+
+### 👤 Profile
+- View and edit profile data
+- Secure logout with full cache clearing
+
+---
+
+## 🧠 Architecture
+
+Feature-first Clean Architecture with BLoC (Cubit):
+
+lib/
+└── core/
+└── features/
+└── [feature_name]/
+├── data/          # Models, Mappers, Data Sources (Remote/Local)
+└── presentation/  # Cubits, States, Screens, Widgets
+
+
+---
+
+## 🌐 Data Flow
+
+- Data Layer → API calls (Dio), models, caching
+- Domain Layer → business logic (pure Dart)
+- Presentation Layer → UI + Cubit state management
+
+---
+
+## 🌐 Networking & Error Handling
+
+- Dio with interceptors (logging, headers, token injection)
+- Centralized error handling:
+    - ServerFailure
+    - NetworkFailure
+    - CacheFailure
+
+---
+
+## 📱 Tech Stack
+
+- Flutter 💙
 - Dart
-- Cubit / Bloc
-- REST API Integration
+- BLoC (Cubit)
 - Dio
-- Firebase
 - Shared Preferences
-- Git & GitHub
-- Clean Architecture
+- Cached Network Image
 
 ---
 
-##  Featured Projects
+## 💡 Future Improvements
 
-###  E-Commerce App
-A scalable E-Commerce mobile application built with Flutter, featuring authentication, product browsing, cart management, and REST API integration using Clean Architecture principles.
-
-🔗 GitHub:  
-https://github.com/shahdsayed11204-spec/e-commerce-app
-
----
-
-### More Projects Coming Soon
-I am actively building more Flutter applications to strengthen my portfolio.
+- 💳 Payment Gateway (Stripe / Paymob)
+- 🔔 Push Notifications (Firebase Cloud Messaging)
+- 🌙 Dark / Light Theme
+- 📦 Offline Mode (Hive / Drift)
+- 📊 Firebase Analytics & Crashlytics
 
 ---
 
-##  GitHub Stats
+## 👩‍💻 Developer
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=shahdsayed11204-spec&show_icons=true&theme=default)
-
----
-
-##  Contact Me
-
-- GitHub: https://github.com/shahdsayed11204-spec
-- LinkedIn: https://www.linkedin.com/in/shahd-sayed-0b006a351/
-- Email: shahdsayed11204@gmail.com
-
----
-
-##  Career Goals
-
-- Secure a Junior Flutter Developer position
-- Build production-level mobile applications
-- Improve system design & architecture skills
-- Grow into a strong mobile software engineer  
+Made with ❤️ by **Shahd Sayed**

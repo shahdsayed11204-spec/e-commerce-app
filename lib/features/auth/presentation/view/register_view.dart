@@ -198,8 +198,9 @@ class RegisterView extends StatelessWidget {
                                 textColor: Colors.white,
                                   text: 'Guest',
                               icon: Icons.person_outline,
-                                onTap: (){
-                                 navigatorReplace(context, Root());
+                                onTap: () async {
+                                  await context.read<AuthCubit>().autoLogin();
+                                  navigatorReplace(context, Root());
                                 },
                                 color: Colors.transparent,
                                 radius: 10,

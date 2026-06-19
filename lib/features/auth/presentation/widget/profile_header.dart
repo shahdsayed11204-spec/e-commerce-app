@@ -17,8 +17,8 @@ class ProfileHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 8
+          vertical: 20,
+          horizontal: 8
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -69,21 +69,21 @@ class ProfileHeader extends StatelessWidget {
                 bottom: 3,
                 right: 5,
                 child:  CircleAvatar(
-                child: IconButton(onPressed: (){
-                  context.read<AuthCubit>().pickImage();
-                }, icon:Center(child: Icon( Icons.camera_alt_outlined,color: Colors.grey.shade600,))),
-              ),),
+                  child: IconButton(onPressed: (){
+                    context.read<AuthCubit>().pickImage();
+                  }, icon:Center(child: Icon( Icons.camera_alt_outlined,color: Colors.grey.shade600,))),
+                ),),
 
             ],
           ),
 
           const Gap( 12),
-        CustomText(
-          text: name,
-          color: Colors.black,
-          size: 22,
-          font: FontWeight.bold,
-        ),
+          CustomText(
+            text: name,
+            color: Colors.black,
+            size: 22,
+            font: FontWeight.bold,
+          ),
           const Gap( 4),
           CustomText(
             text: role,

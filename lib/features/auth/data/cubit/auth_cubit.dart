@@ -7,34 +7,36 @@ import 'package:untitled3/features/auth/data/cubit/auth_states.dart';
 import 'package:untitled3/features/auth/data/model/login_model/login_uesr_respons.dart';
 import 'package:untitled3/features/auth/data/model/register_model/register_uesr_respons.dart';
 
+import '../../../../core/constants/cahce_key.dart' show CacheKeys;
+import '../../../../core/utils/cache_helper.dart';
 import '../model/profile_model/profile_model.dart';
 
 class AuthCubit extends Cubit<AuthStates>{
   AuthCubit():super(AuthInitialStates());
 
- AuthServices authServices=AuthServices();
+  AuthServices authServices=AuthServices();
 
   LoginUserResponseModel?loginUserResponseModel;
   RegisterUserResponseModel? registerUserResponseModel;
   ProfileModel? profileModel;
   bool isPassword=true;
 
- IconData sufix= CupertinoIcons.eye_slash;
- void ChagnePassword(){
-   isPassword = !isPassword;
-   sufix= isPassword? CupertinoIcons.eye_slash: CupertinoIcons.eye;
-   emit(AuthChangeStates());
- }
+  IconData sufix= CupertinoIcons.eye_slash;
+  void ChagnePassword(){
+    isPassword = !isPassword;
+    sufix= isPassword? CupertinoIcons.eye_slash: CupertinoIcons.eye;
+    emit(AuthChangeStates());
+  }
 
 
 
   Future<void>login({
     required String email,
     required String password,
-})async{
+  })async{
     emit(LoginLoadingStates());
     try{
-   loginUserResponseModel= await authServices.Login(email: email, password: password);
+      loginUserResponseModel= await authServices.Login(email: email, password: password);
       emit(LoginSuccessStates(userResponseModel:loginUserResponseModel! ));
     }
     catch (e) {
@@ -54,10 +56,10 @@ class AuthCubit extends Cubit<AuthStates>{
     required String phone,
     required String password,
     required String rePassword,
-})async{
+  })async{
     emit(RegisterLoadingStates());
     try{
-  registerUserResponseModel= await authServices.register( name: name,
+      registerUserResponseModel= await authServices.register( name: name,
         email: email,
         phone: phone,
         password: password,
@@ -73,10 +75,10 @@ class AuthCubit extends Cubit<AuthStates>{
     }
   }
 
-Future<void>getProfile()async {
+  Future<void>getProfile()async {
     emit(ProfileLoadingStates());
     try {
-       profileModel = await authServices.getProfile();
+      profileModel = await authServices.getProfile();
       emit(ProfileSuccessStates());
     }
     catch (e) {
@@ -91,11 +93,29 @@ Future<void>getProfile()async {
 
 
   String ?selectedImage;
- Future<void>pickImage()async{
-   final pickImage= await ImagePicker().pickImage(source: ImageSource.gallery);
-   if(pickImage !=null){
-     selectedImage=pickImage.path;
-     emit(ProfileImagePickedState());
-   }
- }
+  Future<void>pickImage()async{
+    final pickImage= await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(pickImage !=null){
+      selectedImage=pickImage.path;
+      emit(ProfileImagePickedState());
+    }
+  }
+
+
+  Future<void> autoLogin() async {
+    final token = await CacheHelper.getData(key: CacheKeys.token??"");
+
+    if (token == null || token == 'guest') {
+      emit(AuthGuestState());
+      return;
+    }
+
+    try {
+      await getProfile();
+      emit(AuthSuccessState());
+    } catch (e) {
+      await CacheHelper.removeData(key: CacheKeys.token??'');
+      emit(AuthGuestState());
+    }
+  }
 }

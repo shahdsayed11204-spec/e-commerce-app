@@ -144,10 +144,9 @@ class LoginView extends StatelessWidget {
                         ),
                         Gap(15),
                         GestureDetector(
-                          onTap: () {
-                            navigatorReplace(
-                            context, Root()
-                            );
+                          onTap: () async {
+                            await context.read<AuthCubit>().autoLogin();
+                            navigatorReplace(context, Root());
                           },
                           child: CustomText(
                             text: 'Continue as a guest ?',

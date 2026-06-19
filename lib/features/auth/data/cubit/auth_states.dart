@@ -46,3 +46,9 @@ class ProfileErrorStates extends AuthStates {
 }
 
 class ProfileImagePickedState extends AuthStates {}
+
+class AuthGuestState extends AuthStates {}
+class AuthSuccessState extends AuthStates {
+
+}
+
