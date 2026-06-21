@@ -30,7 +30,7 @@ class _SplachAppState extends State<SplachApp> {
         CacheKeys.token=CacheHelper.getData(key: 'userToken');
         isLoged = CacheKeys.token?.isNotEmpty??false;
         if( isLoged==true){
-          navigatorto(context,  LoginView());
+          navigatorto(context, Root());
         }else{
           navigatorto(context,  LoginView());
         }
